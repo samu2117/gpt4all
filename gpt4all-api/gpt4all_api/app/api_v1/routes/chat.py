@@ -19,7 +19,7 @@ class ChatCompletionMessage(BaseModel):
 class ChatCompletionRequest(BaseModel):
     model: str = Field(settings.model, description='The model to generate a completion from.')
     messages: List[ChatCompletionMessage] = Field(..., description='Messages for the chat completion.')
-    temperature: float = Field(settings.temp, description='Model temperature')
+    temperature: float = Field(settings.temp2, description='Model temperature')
 
 class ChatCompletionChoice(BaseModel):
     message: ChatCompletionMessage
@@ -68,11 +68,13 @@ async def chat_completion(request: ChatCompletionRequest):
 
         # the LLM will complete the response of the assistant
         formatted_messages += "<|im_start|>assistant\n"
+        print("Generating...")
         response = model.generate(
             prompt=formatted_messages,
-            temp=request.temperature
+            temp=request.temperature,
+            max_tokens=1000,
             )
-
+        print(response)
         # the LLM may continue to hallucinate the conversation, but we want only the first response
         # so, cut off everything after first <|im_end|>
         index = response.find("<|im_end|>")
@@ -99,5 +101,5 @@ async def chat_completion(request: ChatCompletionRequest):
         choices=[response_choice],
         usage=ChatCompletionUsage(prompt_tokens=0, completion_tokens=0, total_tokens=0),  # Placeholder values
     )
-
+    print("Response Finished...")
     return chat_response

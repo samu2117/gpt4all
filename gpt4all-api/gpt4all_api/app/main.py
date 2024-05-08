@@ -2,9 +2,9 @@ import logging
 import os
 
 import docs
+from api_v1.settings import settings
 from api_v1 import events
 from api_v1.api import router as v1_router
-from api_v1.settings import settings
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.logger import logger as fastapi_logger
 from starlette.middleware.cors import CORSMiddleware
@@ -37,7 +37,7 @@ async def startup():
         logger.info(f"Downloading/fetching model: {os.path.join(settings.gpt4all_path, settings.model)}")
         from gpt4all import GPT4All
 
-        model = GPT4All(model_name=settings.model, model_path=settings.gpt4all_path)
+        model = GPT4All(model_name=settings.model, model_path=settings.gpt4all_path, allow_download=False)
 
         logger.info(f"GPT4All API is ready to infer from {settings.model} on CPU.")
 

@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   gpt4all_api:
     image: gpt4all_api

@@ -23,7 +23,7 @@ class CompletionRequest(BaseModel):
     model: str = Field(settings.model, description='The model to generate a completion from.')
     prompt: Union[List[str], str] = Field(..., description='The prompt to begin completing from.')
     max_tokens: int = Field(None, description='Max tokens to generate')
-    temperature: float = Field(settings.temp, description='Model temperature')
+    temperature: float = Field(settings.temp2, description='Model temperature')
     top_p: Optional[float] = Field(settings.top_p, description='top_p')
     top_k: Optional[int] = Field(settings.top_k, description='top_k')
     n: int = Field(1, description='How many completions to generate for each prompt')
